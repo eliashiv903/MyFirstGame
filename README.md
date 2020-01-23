@@ -9,5 +9,5 @@ Manual interface where every move the user has to choose where he wants to move 
 An automatic interface where the robots move in each move according to the algorithm in the game. The algorithm should be as efficient as possible.  
 video how to use the game: https://youtu.be/TgG4GSzojHw  
 example:  
-![](https://user-images.githubusercontent.com/58138902/72687177-2121e980-3b04-11ea-84bf-397d13f64cec.png)  
+![](https://user-images.githubusercontent.com/58138902/72988260-9804fe00-3df4-11ea-930a-ecf824fb17e2.png)  
 enjoy! :)
