@@ -11,3 +11,12 @@ video how to use the game: https://youtu.be/TgG4GSzojHw
 example:  
 ![](https://user-images.githubusercontent.com/58138902/72988260-9804fe00-3df4-11ea-930a-ecf824fb17e2.png)  
 enjoy! :)
+
+### Sorces
+
+json- https://www.json.org/json-en.html
+
+JFrame- https://docs.oracle.com/javase/7/docs/api/javax/swing/JFrame.html
+
+KML files- https://www.usgs.gov/natural-hazards/earthquake-hazards/google-earth-kml-files
+
