@@ -55,43 +55,7 @@ public class SimpleDB1 {
 		arrMove.put(23, 1140);
 	}
 
-	public static void main(String[] args) {
-		int id1 = 304939648;  // "dummy existing ID  
-		int level = 0;
-		SimpleDB1 a=new SimpleDB1();
-		a.allUsers(id1);
-		//a.printLog(304939648);
-		//a.notSameId();
-		int numPlayTody=a.getNumPlayTody();
 
-		HashMap<Integer, Integer> arrMyBest=a.getArrMyBest();
-		HashMap<Integer, ArrayList<Integer[]>> arrAllBest=a.getArrAllBest();
-		System.out.println(arrAllBest.get(24));
-		String numPlay="youPlay:"+numPlayTody+" in the game";
-		int b[]= {0,1,3,5,9,11,13,16,19,20,23};
-		String arrBest="";
-		for (int i = 0; i < b.length; i++) {
-			arrBest+="in level:"+b[i]+"- you best score:"+arrMyBest.get(b[i])+".\n";	 
-		}
-		String arrAll="";
-		for (int i = 0; i < b.length; i++) {
-
-			arrAll+="in level:"+b[i]+"- the 10 best score:\n";
-			for (int j = 0; j < 10&&j<arrAllBest.get(b[i]).size(); j++) {
-				int place=j+1;
-				arrAll+="         place"+place+"- id:"+arrAllBest.get(b[i]).get(j)[0]+" score:"+arrAllBest.get(b[i]).get(j)[1]+"\n";
-			}
-
-		}
-		System.out.println(arrBest);
-		//	System.out.println(arrAll+"mmm");
-		System.out.println(numPlay+"llllllfffffffffffffffffffffffffffffffff");
-
-
-		//			String kml = getKML(id1,level);
-		//			System.out.println("***** KML file example: ******");
-		//			System.out.println(kml);
-	}
 
 	public  void printLog(int id1) {
 		try {
@@ -192,7 +156,7 @@ public class SimpleDB1 {
 		return ans;
 	}
 	private void theBest(int iD, int l, int mOVE, int sCORE) {
-		if(l==-1||l==-31||iD<1000000)return;
+		if(l>=0&&l<=23&&iD>1000000) {
 		if(mOVE>arrMove.get(l) )return;
 		if(arrAllBest.get(l).size()==0) {
 			System.out.println(l);
@@ -212,6 +176,7 @@ public class SimpleDB1 {
 				arrAllBest.get(l).add(i, b);
 				break;
 			}
+		}
 		}
 
 	}
@@ -235,6 +200,7 @@ public class SimpleDB1 {
 		}
 	}
 	private void MyBest(int l, int mOVE, int sCORE) {
+		if(l<0&&l>23)return;
 		if(mOVE<=arrMove.get(l) && (arrMyBest.get(l)==null||arrMyBest.get(l)<sCORE))
 			arrMyBest.put(l, sCORE);
 	}
