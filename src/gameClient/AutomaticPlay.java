@@ -20,9 +20,7 @@ public class AutomaticPlay {
 
 
 	public  void test1(WindowMange window) {
-		while(window.getId()==-1) {
-			System.out.println();;
-		}
+		
 		int scenario_num=window.getLevelPlay();
 		Game_Server.login(window.getId());
 		game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games

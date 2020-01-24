@@ -14,6 +14,22 @@ import dataStructure.Edgedata;
 import dataStructure.edge_data;
 import dataStructure.node_data;
 
+
+
+/**
+ * In this class, there are algorithms that try to find where to send
+ *  the bots so that they collect the most points from the fruits by limiting steps.
+ *  Sometimes I did a special algorithm for a certain stage.
+ *The main problems that emerged were. 
+ *1: Limit the steps handled in Thread and not here. 
+ *2: When there is more than one robot that will not go the way one another will pass it. 
+ *3: In the final stages it was difficult to identify which fruit side I treated with setFruit
+ * 
+ */
+
+
+
+
 public class AlgoGameWhereTheRoobotsGo {
 	ArrayList<ArrayList<Edgedata>> roobotsSrcAndDest=new ArrayList<ArrayList<Edgedata>>() ;
 	private  ArrayList<Fruit> fruit = new ArrayList<Fruit>();
@@ -23,9 +39,9 @@ public class AlgoGameWhereTheRoobotsGo {
 	public ArrayList<List<node_data>> getDest1(){
 		return dest1;
 	}
-
+	//A builder that gets the game and stages from each robot what fruits are closest to it 
+	//and sends algorithms to test the best target for robots
 	AlgoGameWhereTheRoobotsGo (game_service game,ArrayList<Integer>src, int game_num){
-
 		String info=game.toString();
 		int numR=Integer.valueOf(""+info.charAt(info.indexOf("graph")-3));
 		String g = game.getGraph();
@@ -34,6 +50,7 @@ public class AlgoGameWhereTheRoobotsGo {
 		setList(game);
 		String s=game.toString();
 		Edgedata a[]=new Edgedata[src.size()];
+		//Sorts each robot the fruits from the nearest distance
 		for (int i = 0; i < numR; i++) {
 			roobotsSrcAndDest.add(new ArrayList<Edgedata>());
 			for(Fruit f:fruit) {
@@ -43,7 +60,7 @@ public class AlgoGameWhereTheRoobotsGo {
 			a[i]=roobotsSrcAndDest.get(i).get(0);
 		}
 		//		if(game_num==20) {
-		//			samFruitAndRoobot(game);
+		//			samFruitAndRoobot();
 		//			//samFruitAndRoobot(game,src,a);
 		//			findNewDest(src);
 		//return;
@@ -58,18 +75,18 @@ public class AlgoGameWhereTheRoobotsGo {
 
 	}
 
-	private void samFruitAndRoobot(game_service game) {
-		roobotsSrcAndDest.get(1).add(0,roobotsSrcAndDest.get(0).get(roobotsSrcAndDest.get(0).size()-1));
-		roobotsSrcAndDest.get(2).add(0,roobotsSrcAndDest.get(0).get(roobotsSrcAndDest.get(0).size()-3));
+	/**
+	 *A special algorithm for step 16 that allows each
+	 * robot to rotate in another part of the graph
+	 */
 
-	}
 	private void sameWay16(ArrayList<Integer> src, Edgedata[] a, int game_num) {
 
 		ArrayList<List<node_data>> z=new ArrayList<List<node_data>>();
 		ArrayList<List<Integer>> k=new ArrayList<List<Integer>>();
 
 		Graph_Algo v=new Graph_Algo (g0);
-
+//Prepares lists of robot targets
 		for (int i = 0; i < a.length; i++) {
 			z.add(v.shortestPath(src.get(i), a[i].getSrc()));
 			z.get(i).remove(0);
@@ -81,11 +98,11 @@ public class AlgoGameWhereTheRoobotsGo {
 
 
 		if(game_num==16) {
-			roobotsSrcAndDest.get(0).add(g0.getEdgeE(12, 11));
-			roobotsSrcAndDest.get(1).add(g0.getEdgeE(27, 28));
+			//roobotsSrcAndDest.get(0).add(g0.getEdgeE(12, 11));
+			//roobotsSrcAndDest.get(1).add(g0.getEdgeE(27, 28));
 
 			for (int i = 0; i < a.length; i++) {
-
+//If the list has one of the vertices that I want to be the border then I switch to a target robot
 				if(k.get(0).contains(31)||k.get(0).contains(5)||k.get(0).contains(20)) {
 					System.out.println(":)");
 					roobotsSrcAndDest.get(0).remove(0);
@@ -100,7 +117,6 @@ public class AlgoGameWhereTheRoobotsGo {
 					}
 				}
 				if(k.get(1).contains(32)||k.get(1).contains(6)||k.get(1).contains(19)) {
-					System.out.println(":)");
 					roobotsSrcAndDest.get(1).remove(0);
 					a[1]=roobotsSrcAndDest.get(1).get(0);
 					z.remove(1);
@@ -114,12 +130,16 @@ public class AlgoGameWhereTheRoobotsGo {
 			}
 		}
 	}
+	/**
+	 *If even though each robot has a different target but another robot
+	 * will also pass through its fruit then it will receive a new target
+	 */
 	private void sameWay(ArrayList<Integer> src, Edgedata[] a, int game_num) {
 		ArrayList<List<node_data>> z=new ArrayList<List<node_data>>();
 		ArrayList<List<Integer>> k=new ArrayList<List<Integer>>();
 
 		Graph_Algo v=new Graph_Algo (g0);
-
+		//Prepares lists of robot targets
 		for (int i = 0; i < a.length; i++) {
 			z.add(v.shortestPath(src.get(i), a[i].getSrc()));
 			z.get(i).remove(0);
@@ -128,7 +148,7 @@ public class AlgoGameWhereTheRoobotsGo {
 				k.get(i).add(z.get(i).get(j2).getKey());
 			}	
 		}
-
+//If another robot goes through the list of another robot, then switch it to a target
 		int u=2;
 		for (int x = 0; x <u; x++) {
 			for (int i = 0; i < a.length; i++) {
@@ -148,6 +168,15 @@ public class AlgoGameWhereTheRoobotsGo {
 			}
 		}
 	}
+
+	/**
+	 *If two robots have the same fruit closest to them,
+	 * they will find a new target for a robot that is farther away from the fruit
+	 * 
+	 */
+
+
+
 	private void sameftuit(ArrayList<Integer> src, Edgedata[] a2) {
 
 		if(src.size()==2&& a2[0].getSrc()==a2[1].getSrc()) {
@@ -164,7 +193,6 @@ public class AlgoGameWhereTheRoobotsGo {
 				for (int j = i; j < a2.length; j++) {
 					if(i!=j&&a2[i].getSrc()==a2[j].getSrc()) {
 						arrSame.add(i);
-
 					}
 				}
 			}
@@ -198,7 +226,7 @@ public class AlgoGameWhereTheRoobotsGo {
 			}
 		}
 	}
-
+	//Prepares the list of vertices on the way to the destination
 	private void findNewDest(ArrayList<Integer> src) {
 		for (int i = 0; i <  src.size(); i++) {
 			List<node_data> n=new ArrayList<node_data>();
@@ -211,6 +239,21 @@ public class AlgoGameWhereTheRoobotsGo {
 		}
 
 	}
+
+
+
+	/**
+	 * The following functions put the fruit on the appropriate ribs for
+	 * calculating the way to the robots in the final stages of the game 
+	 * it was difficult to identify which rib is or is missing fruit so I added an
+	 * algorithm that goes over all ribs and mother checks:
+	 * the distance of the fruit from one vertex + the distance from the fruit to the other vertex.
+	 * Smaller is equal to epsilon and larger is equal to minos epsilon.
+	 *  I added that it would start from a really small epsilon and 
+	 *  every time it didn't find it
+	 *   would increase the epsilon until I found the fruit
+	 *  
+	 */
 
 	public void setFruit() {
 		for (int j = 0; j < fruit.size(); j++) {
@@ -269,4 +312,9 @@ public class AlgoGameWhereTheRoobotsGo {
 		setFruit();
 	}
 
+	private void samFruitAndRoobot() {
+		roobotsSrcAndDest.get(1).add(0,roobotsSrcAndDest.get(0).get(roobotsSrcAndDest.get(0).size()-1));
+		roobotsSrcAndDest.get(2).add(0,roobotsSrcAndDest.get(0).get(roobotsSrcAndDest.get(0).size()-3));
+
+	}
 }

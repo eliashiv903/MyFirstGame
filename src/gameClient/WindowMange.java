@@ -262,9 +262,9 @@ public class WindowMange extends JFrame implements ActionListener, MouseListener
 			for (int i = 0,j=0; i < myBestScore.length; i++,j=j+25) {
 				g.drawString(myBestScore[i], 50, 150+j);
 			}
-			g.drawString("in level:"+levelInfoPrint+" the 10 best score:", 930, 150);
-			for (int i = 0,j=0; i < myBestScore.length; i++,j=j+25) {
-				g.drawString(infoScore.get(levelInfoPrint)[i],930, 175+j);
+			g.drawString("in level:"+levelInfoPrint+" the 10 best score:", 790, 150);
+			for (int i = 0,j=0; i < 10; i++,j=j+25) {
+				g.drawString(infoScore.get(levelInfoPrint)[i],800, 175+j);
 			}
 
 			toPrintInfo=false;
@@ -320,7 +320,6 @@ public class WindowMange extends JFrame implements ActionListener, MouseListener
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnNewButton){
-			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			if (idField.getPassword().length >0){
 
 				id = idField.getPassword().clone();   
@@ -332,6 +331,8 @@ public class WindowMange extends JFrame implements ActionListener, MouseListener
 			clean();
 			results="";
 			setGraphBeakgrond();
+			//repaint();
+		//	findAlgoAndRun();
 		}
 
 		String str = e.getActionCommand();
@@ -358,14 +359,13 @@ public class WindowMange extends JFrame implements ActionListener, MouseListener
 
 
 	private void getInfo() {
-		SimpleDB1 a=new SimpleDB1();
-		//	allUsers(id1);
+		GameResultsInformation a=new GameResultsInformation();
+			//a.allUsers(id2);
 		a.printLog(id2);
 		//a.notSameId();
 		int playTody=a.getNumPlayTody();
 		HashMap<Integer, Integer> arrMyBest=a.getArrMyBest();
 		HashMap<Integer, ArrayList<Integer[]>> arrAllBest=a.getArrAllBest();
-
 		numPlayTody="youPlay:"+playTody+" in the game";
 		int b[]= {0,1,3,5,9,11,13,16,19,20,23};
 
@@ -511,7 +511,24 @@ public class WindowMange extends JFrame implements ActionListener, MouseListener
 		setFruit();
 
 	}
+public void findAlgoAndRun(){
 
+	int numGraph=levelYouWantToPlayInt;
+	if((numGraph>=0 &&numGraph<=10)||numGraph==12||numGraph==15||numGraph==18||numGraph==21) {
+		AutomaticPlay play1 =new AutomaticPlay();
+		play1.test1(this);
+	}
+	else if(numGraph==11||numGraph==17||numGraph==20||numGraph==23||numGraph==14) {
+		AutomaticPlay3 play3 =new AutomaticPlay3();
+		play3.test3(this);
+	}
+	else {
+		AutomaticPlay2 play2 =new AutomaticPlay2();
+		play2.test2(this);
+	}
+
+
+}
 	public static void main(String[] args) {
 
 		WindowMange window = new WindowMange();

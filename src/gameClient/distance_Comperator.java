@@ -4,6 +4,8 @@ import java.util.Comparator;
 import algorithms.Graph_Algo;
 import dataStructure.DGraph;
 import dataStructure.Edgedata;
+
+//Sorts each robot the fruits from the nearest distance
 public class distance_Comperator implements Comparator<Edgedata> {
 
 private int n;

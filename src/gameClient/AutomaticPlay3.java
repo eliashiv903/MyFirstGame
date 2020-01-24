@@ -26,10 +26,7 @@ import oop_dataStructure.oop_graph;
 
 public class AutomaticPlay3 {
 	private static KML_Logger kmlAriel;
-	public  void test3(WindowMange window) {
-		while(window.getId()==-1) {
-			System.out.println();;
-		}
+	public  void test3(WindowMange window) {		
 		int scenario_num=window.getLevelPlay();
 		Game_Server.login(window.getId());
 		game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games
@@ -116,7 +113,7 @@ public class AutomaticPlay3 {
 						game.move();
 					}
 					try {
-						Thread.sleep(20);
+						Thread.sleep(106);
 					}
 					catch (InterruptedException e) {
 						e.printStackTrace();

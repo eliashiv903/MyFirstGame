@@ -11,6 +11,11 @@ import dataStructure.Edgedata;
 import dataStructure.edge_data;
 import dataStructure.node_data;
 
+/**
+ * This class has algorithms for finding the best starting position
+ *  for bots to get maximum results in limiting steps at all stages
+ * 
+ */
 public class AlgoGameRooboteStart {
 	int idR[] ;
 	private  ArrayList<Fruit> fruit = new ArrayList<Fruit>();
@@ -18,24 +23,22 @@ public class AlgoGameRooboteStart {
 	private  Edgedata EdgedataMaxVal[];
 
 
-	public Edgedata[] getEdgedataMaxVal() {
-		return EdgedataMaxVal;
-	}
 	public AlgoGameRooboteStart(game_service game,int numGame){
 		String info=game.toString();
 		int numR=Integer.valueOf(""+info.charAt(info.indexOf("graph")-3));
-		idR=new int[numR];
 		EdgedataMaxVal=new Edgedata[numR];
 		String g = game.getGraph();
 		g0=new DGraph();
 		g0.init(g);	
 		setList(game);
-
+		//When there is one robot
 		if(numR==1)getEdgeMaxValueFruit1();
+		//When there are two robots
 		else if (numR==2)getEdgeMaxValueFruit2();
+		//When there are three robots
 		else getEdgeMaxValueFruit3();
-		if(numGame==0)EdgedataMaxVal[0]=new Edgedata(9, 8, 1);
-		if(numGame==3)EdgedataMaxVal[0]=new Edgedata(3, 2, 1);
+		
+		//Sometimes by trial and error I tried to place robots in a non-strategic place
 		if(numGame==16) {
 			EdgedataMaxVal[0]=new Edgedata(39, 10, 1);
 			EdgedataMaxVal[1]=new Edgedata(16, 17, 1);
@@ -60,6 +63,16 @@ public class AlgoGameRooboteStart {
 			EdgedataMaxVal[2]=new Edgedata(3, 12, 1);
 		}
 	}
+	
+
+	public Edgedata[] getEdgedataMaxVal() {
+		return EdgedataMaxVal;
+	}
+
+/**
+ * Finds the 3 fruits of the highest value 
+ * 
+ */
 	public void getEdgeMaxValueFruit3() {
 		Edgedata max1=new Edgedata();
 		Edgedata max2=new Edgedata();
@@ -103,6 +116,10 @@ public class AlgoGameRooboteStart {
 		EdgedataMaxVal[1]=max2;
 		EdgedataMaxVal[2]=max3;
 	}
+	/**
+	 * Finds the 2 fruits of the highest value
+	 * 
+	 */
 	public void getEdgeMaxValueFruit2() {
 		Edgedata max1=new Edgedata();
 		Edgedata max2=new Edgedata();
@@ -138,6 +155,10 @@ public class AlgoGameRooboteStart {
 		EdgedataMaxVal[0]=max1;
 		EdgedataMaxVal[1]=max2;
 	}
+	/**
+	 * Finds the 1 fruit of the highest value
+	 * 
+	 */
 	public void getEdgeMaxValueFruit1() {
 		Edgedata max=new Edgedata();
 		ArrayList<node_data> a=new ArrayList<node_data>( g0.getV());

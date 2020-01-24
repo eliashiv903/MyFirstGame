@@ -62,11 +62,16 @@ import java.util.Arrays;
 
 
 
+/**
+ * This class builds a game manual on a graph and realizes the game,
+ *  more info on "https://github.com/eliashiv903/MyFirstGame"
+ * 
+ */
 public class Window extends JFrame implements ActionListener, MouseListener {
-	
-	
-	
-	
+
+
+
+
 	private String results ="";
 	private static double r_minx=999999998;
 	private static double r_maxx=-999999998;
@@ -95,37 +100,19 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 	private int robotTemp =-1;
 	private int numRoboot =0;
 	private double valWin =0;
-   
-	
-
-	private void setGrafh() {
-		ArrayList<node_data> a=new ArrayList<node_data>(g0.getV());
-		for (int i = 0; i < a.size(); i++) {
-			if(r_maxx<a.get(i).getLocation().x())r_maxx=a.get(i).getLocation().x();
-			if(r_minx>a.get(i).getLocation().x())r_minx=a.get(i).getLocation().x();
-		}
-		for (int i = 0; i < a.size(); i++) {
-			if(r_maxy<a.get(i).getLocation().y())r_maxy=a.get(i).getLocation().y();
-			if(r_miny>a.get(i).getLocation().y())r_miny=a.get(i).getLocation().y();
-		}
-		ArrayList<node_data> dataNode=new ArrayList<node_data>(g0.getV());
-		for (int i = 0; i <dataNode.size(); i++) {
-			dataNode.get(i).setLocation(new Point3D(scaleX(r_maxx,r_minx,dataNode.get(i).getLocation().x()),scaleY(r_maxy,r_miny,dataNode.get(i).getLocation().y())));
-		}
-
-
-	}
 	public Window() {
 		initGUI();
 	}
 
+	/**
+	 * Builds screen of JFrem
+	 */
 
 	private void initGUI() {
 		this.setSize(1300, 1200);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-    
+
 		MenuBar menuBar = new MenuBar();
 		Menu menu = new Menu("Menu");
 		menuBar.add(menu);
@@ -179,7 +166,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		MenuItem item19 = new MenuItem("moveRobetToEdge");
 		item19.addActionListener(this);
 
-		
+
 		MenuItem item17;
 		for (int i = 0; i < 24; i++) {
 			item17 = new MenuItem(""+i);
@@ -201,6 +188,32 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		this.addMouseListener(this);
 
 	}
+	/**
+	 * Finds the smallest and greatest X and also Y to,
+	 * Skull points to graphs that can be drawn in JFrem.
+	 * 
+	 */
+	private void setGrafh() {
+		ArrayList<node_data> a=new ArrayList<node_data>(g0.getV());
+		for (int i = 0; i < a.size(); i++) {
+			if(r_maxx<a.get(i).getLocation().x())r_maxx=a.get(i).getLocation().x();
+			if(r_minx>a.get(i).getLocation().x())r_minx=a.get(i).getLocation().x();
+		}
+		for (int i = 0; i < a.size(); i++) {
+			if(r_maxy<a.get(i).getLocation().y())r_maxy=a.get(i).getLocation().y();
+			if(r_miny>a.get(i).getLocation().y())r_miny=a.get(i).getLocation().y();
+		}
+		ArrayList<node_data> dataNode=new ArrayList<node_data>(g0.getV());
+		for (int i = 0; i <dataNode.size(); i++) {
+			dataNode.get(i).setLocation(new Point3D(scaleX(r_maxx,r_minx,dataNode.get(i).getLocation().x()),scaleY(r_maxy,r_miny,dataNode.get(i).getLocation().y())));
+		}
+
+
+	}
+	/**
+	 * Skull points to graphs that can be drawn in JFrem.
+	 * 
+	 */
 	private static double scaleX(double r_max, double r_min, double data){
 
 		double res = ((data - r_min) / (r_max-r_min)) * (1250- 	30) + 30;
@@ -214,14 +227,16 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 	}
 
 
-
-
+	/**
+	 * paint all game and String
+	 * 
+	 */
 
 
 	public void paint(Graphics g) {
 
 		super.paint(g);
-
+		//paint graph
 		if(numGraph!=-1) {
 			BufferedImage imgGraph  = null;
 			try {
@@ -232,7 +247,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 
 			g.drawImage(imgGraph , 0, 0, 1297 , 737, this);
 		}
-		
+		//paint furit
 		BufferedImage imgFruit = null;
 		try {
 			imgFruit = ImageIO.read(new File("data\\king3.png"));
@@ -259,6 +274,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 			}
 
 		}
+		//paint string
 		g.setColor(Color.ORANGE);
 		g.drawString(syso, 99, 73);
 		if(!syso2.equals(""))g.drawString(syso2, 99, 85);
@@ -266,7 +282,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		if(!syso3.equals(""))g.drawString(syso3, 99, 109);
 		if(!syso4.equals(""))g.drawString(syso4, 99, 121);
 		if(!results.equals(""))g.drawString(results, 99, 133);
-
+		//paint roobot
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File("data\\jon.jpg"));
@@ -279,17 +295,20 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 
 	}
 
-
-    @Override
+	/**
+	 *Gets input from the user and performs what is required
+	 * 
+	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
-   
+
 		String str = e.getActionCommand();
 		Graph_Algo a = new Graph_Algo();
 		if(str.equals("TimeToEnd")) {
 			System.out.println(game.timeToEnd());
 			if(game.isRunning())results="TimeToEnd:"+game.timeToEnd();
-			else results="The game dont start";
+			else results="The game not running";
 		}
 		else if(str.equals("moveRobetToEdge")) {
 			syso="ches roobet to move"; 
@@ -298,8 +317,6 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		else if(str.equals("new game")) {
 			setVisible(false); //you can't see me!
 			dispose();
-			Window window = new Window();
-			window.setVisible(true);
 		}
 		else if(str.equals("putRobet")) {
 			if(roobet.size()<numRoboot)w="putRobet";
@@ -309,7 +326,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 
 			}
 		}
-
+//Initializes the game by the number of the graph
 		else	if(str.charAt(0)>='0' &&str.charAt(0)<='9') {
 			clean();
 			results="";
@@ -331,27 +348,13 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 			syso3="";
 			syso4="";
 		}
-		
+
 		else  if (str.equals("savePic")) {
 			a.init(g0);
 			save_paint("picGame");
 		}
 		else if (str.equals("clearAll")) {
-			valWin=0;
-			fruit = new ArrayList<Fruit>();
-			w = "";
-			count = 0;
-			src = 0;
-			dest = 0;
-			g3 = new ArrayList<node_data>();
-			g0 = new DGraph();
-			g4 = new ArrayList<Integer>();
-			syso = "All clear";
-			syso1="";
-			syso2="";
-			syso3="";
-			syso4="";
-			roobet =new ArrayList<Nodedata>();
+			clean();
 		}
 		else if (str.equals("dataGraphToString")) {
 			syso = g0.toStringDataNode();
@@ -406,13 +409,11 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 			w = str;
 			syso = "Choose a point or end";
 		}
-		
-		
-		
+
 		repaint();
 	}
 
-
+//clear all
 	private void clean() {
 		if(game!=null)game.stopGame();
 
@@ -434,6 +435,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		roobet =new ArrayList<Nodedata>();
 
 	}
+	//Finds the number of bots in the game 
 	private void setNumRoobot() {
 		String info=""+game.toString();
 		numRoboot=Integer.valueOf(""+info.charAt(info.indexOf("robots")+8));
@@ -444,6 +446,12 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		// System.out.println("mouseClicked");
 	}
 
+	
+	/**
+	 *After each click of the screen the computer catches
+	 * the point and gets it here and I follow his request
+	 * 
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
@@ -452,6 +460,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		syso2="";
 		syso3="";
 		syso4="";
+		//Plays robots at selected points and starts the game
 		if (w.equals("putRobet")) {
 			if(roobet.size()<numRoboot) {
 				double x = e.getX();
@@ -462,8 +471,10 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 				game.startGame();
 				if(game.isRunning()) {			
 					syso2="game start";
-					trehd(game);
-					trehd1(game);
+					//tread for move
+					trehdMove(game);
+					//for print time
+					trehdTime(game);
 				}else {
 					syso2="put mor roobot";
 				}
@@ -542,7 +553,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 			syso = "in list:" + g4;
 			System.out.println("in list:" + g4.get(g4.size() - 1));
 		}
-
+//Sends a robot to the selected code
 		else if(w.equals("moveRobetToEdge")) {
 			double x = e.getX();
 			double y = e.getY();
@@ -560,18 +571,24 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		}
 		repaint();
 	}
-
+	/**
+	 *Sends a robot to the selected code 
+	 *and sends it to a function that will pass it on the server
+	 * 
+	 */
 	private void moveRoobotToEdge(double x, double y) {
 
-		node_data nodeTemp=new Nodedata();
-		nodeTemp=setnode(x, y);
-		if(nodeTemp.getKey()!=-1) {
+		node_data nodeDest=new Nodedata();
+		nodeDest=setnode(x, y);
+		if(nodeDest.getKey()!=-1) {
 			int robootPlace=roobet.get(robotTemp).getKey();
-			node_data d=g0.getNode(nodeTemp.getKey());
+			node_data d=g0.getNode(nodeDest.getKey());
 			roobet.get(robotTemp).copy(d);
-			way(robootPlace,nodeTemp.getKey(),nodeTemp.getKey());
+			
+			way(robootPlace,nodeDest.getKey());
 		}
 		w="";
+		//End the game
 		if(!game.isRunning()) {
 			results="result for graph:"+numGraph+":"+game.toString();
 			clean();
@@ -586,11 +603,12 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		}
 		return sum;
 	}
-	private void way(int src, int srcFruit, int destFruit) {
+	
+	//Sends a robot to the selected code and sends it to a function that will pass it on the server
+	private void way(int src, int dest) {
 		Graph_Algo b=new Graph_Algo();
 		b.init(g0);
-		g3=(ArrayList<node_data>) b.shortestPath(src, srcFruit);
-		if(srcFruit!= destFruit	)g3.add(g0.getNode(destFruit));//only to furit
+		g3=(ArrayList<node_data>) b.shortestPath(src, dest);
 		ArrayList<Integer> g2 = new ArrayList<Integer>();
 		for (int i = 0; i < g3.size(); i++)   g2.add(g3.get(i).getKey());
 		syso1="Path :" + g2.toString();
@@ -603,7 +621,6 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 			}
 			r=true;
 			valWin=getVal();
-			game.move();
 			while(r&&game.isRunning()) 		moveRobots(e.getDest());
 			System.out.println(t+"t");
 			if(t&&valWin!=getVal())t=false;
@@ -614,13 +631,14 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		}
 
 	}
+	//move roobot
 	private  void moveRobots(int nodeDest) {
 		while(game.getRobots().get(robotTemp).toString().lastIndexOf("-")<0) {
 		}
 		game.chooseNextEdge(robotTemp, nodeDest);
 		r=false;	
 	}
-
+///Changes the location of the fruits by the server
 	private void fuirtRandom(int i) {
 		for (Fruit j: fruit) {
 			g0.getEdgeE(j.getSrc(),j.getDest()).deletFruit();
@@ -642,8 +660,8 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 
 	}
+	//Find out which vertex they wanted to put the robot on
 	public void setRoboot(double x, double y) {
-
 		for (int i = 0; i < roobet.size(); i++) {
 			if (x<roobet.get(i).getLocation().x()+40 && x>roobet.get(i).getLocation().x()-40 && y<roobet.get(i).getLocation().y()+40 && y>roobet.get(i).getLocation().y()-40) {
 				robotTemp=i;
@@ -653,6 +671,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		}
 		syso1=""+robotTemp;
 	}
+	///Find out which vertex they play
 	public node_data setnode(Double x, Double y) {
 		ArrayList<node_data> g1= new ArrayList<node_data>(g0.getV());
 		for (node_data a: g1) {
@@ -662,7 +681,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		}
 		return null;
 	}
-
+//save image of game
 	public void save_paint(String a) {
 		try {
 			BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -686,21 +705,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-	private void setFruitOne(Fruit f) {
-		ArrayList<node_data> a=new ArrayList<node_data>( g0.getV());
-		boolean noFound=true;
-		for (int i = 0; i < a.size()&&noFound; i++) {
-			int node_id=a.get(i).getKey();
-			ArrayList<edge_data> b=new ArrayList<edge_data>(g0.getE(node_id));
-			for(edge_data e:b) {
-				if(findOn(e,f)) {
-					e.setFruit(f);
-					noFound=false;
-					break;
-				}
-			}
-		}
-	}
+	//Add the fruit to the side that if you go through it, take the fruit
 	private static void setFruit() {
 		for (Fruit f:fruit) {
 			ArrayList<node_data> a=new ArrayList<node_data>( g0.getV());
@@ -732,7 +737,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		return false;
 	}
 
-
+//Reading the fruits from the server
 	public static  void setList( game_service game ) {
 		Iterator<String> f_iter = game.getFruits().iterator();
 		String sF="";
@@ -757,7 +762,8 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		setFruit();
 
 	}
-	public  void trehd(game_service game) {
+	//do move  during the game
+	public  void trehdMove(game_service game) {
 		Thread a=new  Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -779,7 +785,8 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 		});
 		a.start();
 	}
-	public  void trehd1(game_service game) {
+	//Prints the time to finish during the game
+	public  void trehdTime(game_service game) {
 		Thread a=new  Thread(new Runnable() {
 			@Override
 			public void run() {
