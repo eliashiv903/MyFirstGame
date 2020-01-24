@@ -8,6 +8,12 @@ import Server.Game_Server;
 import Server.game_service;
 import gameClient.AlgoGameRooboteStart;
 
+/**
+ * Tests the algorithm that chooses where to put the robot at the beginning of the game 
+ * but most of the testing algorithms were done in the graphical
+ *  interface itself because they are more efficient and convenient
+ * 
+ */
 class AlgoGameRooboteStartTest {
 
 	@SuppressWarnings("deprecation")
