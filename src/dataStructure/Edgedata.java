@@ -1,8 +1,14 @@
 package dataStructure;
 import java.io.*;
 import java.util.ArrayList;
-
 import gameClient.Fruit;
+
+
+/**
+ * This interface represents the set of operations applicable on a 
+ * directional edge(src,dest) in a (directional) weighted graph.
+ *
+ */
 public class Edgedata  implements edge_data, Serializable{
 
 	private int keySrc;

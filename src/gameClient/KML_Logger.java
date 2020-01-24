@@ -21,6 +21,10 @@ import de.micromata.opengis.kml.v_2_2_0.Placemark;
 import de.micromata.opengis.kml.v_2_2_0.Style;
 
 
+/**
+*Really maintains the location of bots and eating fruits in Ariel
+ * 
+ */
 public class KML_Logger {
 	public static Thread KmlThread;
 	DGraph g0;
@@ -37,7 +41,7 @@ public class KML_Logger {
 	public void setGame (game_service game) {
 		this.game = game;
 	}
-
+//Initializes the route by the points of the graph
 	public void kml_Graph() {
 		this.kmlAriel = new Kml();
 		this.doc = kmlAriel.createAndSetDocument().withName("new KML").withOpen(true);
@@ -77,7 +81,7 @@ public class KML_Logger {
 		}
 	}
 
-	
+	//Initializes the location of violations by their points
 	public void setFruit(String time , String endTime) {
 		//icon 
 		Icon icon1 = new Icon();
@@ -139,12 +143,7 @@ public class KML_Logger {
 		}
 	}
 	
-	/**
-	 * this function set the robot by pass all the robots and 
-	 * each robot will place at the kml file.
-	 * @param time
-	 * @param endTime
-	 */
+	//Initializes the position of the robots according to their points
 	public void setRobot (String time , String endTime) {
 		//icon 
 		Icon icon = new Icon();
@@ -197,7 +196,7 @@ public class KML_Logger {
 	
 	
 
-	
+	//Thread:  Saves the location of everything at all times
 	public static void threadKml(game_service game , KML_Logger kml) {
 		KmlThread= new Thread(new Runnable() {
 			

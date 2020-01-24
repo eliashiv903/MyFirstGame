@@ -7,6 +7,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+/**
+ * Gets information about the games and the results and arranges the, 
+ * information that can be displayed in a user-friendly way.
+ * I have built two functions that conveniently arrange useful information.
+ */
+
 public class GameResultsInformation {
 	public static final String jdbcUrl="jdbc:mysql://db-mysql-ams3-67328-do-user-4468260-0.db.ondigitalocean.com:25060/oop?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
 	public static final String jdbcUser="student";
@@ -15,55 +22,6 @@ public class GameResultsInformation {
 	private  HashMap<Integer, Integer> arrMove=new HashMap<Integer, Integer>();
 	private  HashMap<Integer, Integer> arrMyBest=new HashMap<Integer, Integer>();
 	private  HashMap<Integer, ArrayList<Integer[]>> arrAllBest=new HashMap<Integer, ArrayList<Integer[]>>();
-
-
-
-
-	public static void main(String[] args) {
-		int id1 = 304939648;  // "dummy existing ID  
-		int level = 0;
-		GameResultsInformation a=new GameResultsInformation();
-		//a.allUsers(id1);
-		a.printLog(304939648);
-		//a.notSameId();
-		int numPlayTody=a.getNumPlayTody();
-
-		HashMap<Integer, Integer> arrMyBest=a.getArrMyBest();
-		HashMap<Integer, ArrayList<Integer[]>> arrAllBest=a.getArrAllBest();
-		System.out.println(arrAllBest.get(24));
-		String numPlay="youPlay:"+numPlayTody+" in the game";
-		int b[]= {0,1,3,5,9,11,13,16,19,20,23};
-		String arrBest="";
-		for (int i = 0; i < b.length; i++) {
-			arrBest+="in level:"+b[i]+"- you best score:"+arrMyBest.get(b[i])+".\n";	 
-		}
-		String arrAll="";
-		for (int i = 0; i < b.length; i++) {
-
-			arrAll+="in level:"+b[i]+"- the 10 best score:\n";
-			for (int j = 0; j < 10&&j<arrAllBest.get(b[i]).size(); j++) {
-				int place=j+1;
-				arrAll+="         place"+place+"- id:"+arrAllBest.get(b[i]).get(j)[0]+" score:"+arrAllBest.get(b[i]).get(j)[1]+"\n";
-			}
-
-		}
-		System.out.println(arrBest);
-		//	System.out.println(arrAll+"mmm");
-		System.out.println(numPlay+"llllllfffffffffffffffffffffffffffffffff");
-
-
-		//			String kml = getKML(id1,level);
-		//			System.out.println("***** KML file example: ******");
-		//			System.out.println(kml);
-	}
-
-
-
-
-
-
-
-
 
 
 	public  HashMap<Integer, Integer> getArrMyBest(){
@@ -75,7 +33,14 @@ public class GameResultsInformation {
 	public int getNumPlayTody() {
 		return numPlayTody;
 	}
+
+	/**
+	 *A constructor that initializes the lists and builds a list according to the steps of limiting steps,
+	 * in unlimited graphs I decided to keep information of less than 2000 steps.
+	 * Every time I get given one game and I sort the data
+	 */
 	public GameResultsInformation(){
+
 		for (int i = 0; i < 24; i++) {
 			ArrayList<Integer[]> a=new ArrayList<Integer[]>();
 			arrAllBest.put(i, a);
@@ -105,9 +70,43 @@ public class GameResultsInformation {
 		arrMove.put(20, 290);
 		arrMove.put(23, 1140);
 	}
+	/**
+	Builds a list of 350 people with the best result in HashMap
+	 * According to the levels that everyone has a list of high results (350)
+	 */
+
+	private void theBest(int iD, int l, int mOVE, int sCORE) {
+		if(l>=0&&l<=23&&iD>99999999) {
+			if(mOVE>arrMove.get(l) )return;
+			for (int i = 0; i < 350  ; i++) {
+				if(arrAllBest.get(l).size()<=i ||sCORE>arrAllBest.get(l).get(i)[1]) {
+					Integer b[]=new Integer[3];
+					b[0]=iD;
+					b[1]=sCORE;
+					b[2]=mOVE;
+					arrAllBest.get(l).add(i, b);
+					for(int j=i+1;j<350&&j<arrAllBest.get(l).size();j++)
+						if(arrAllBest.get(l).get(j)[0]==iD)arrAllBest.get(l).remove(j);
+					break;
+				}
+				else if(iD==arrAllBest.get(l).get(i)[0])break;;
+
+			}
+		}
+
+	}
+
+	//Finds the best result for the ID at the required stage
+	private void MyBest(int l, int mOVE, int sCORE) {
+		if(l<0&&l>23) return;
+		if(mOVE<=arrMove.get(l) && (arrMyBest.get(l)==null||arrMyBest.get(l)<sCORE))
+			arrMyBest.put(l, sCORE);
+	}
 
 
-
+	/** simply prints part the games as played by the users (in the database).
+	 * 
+	 */
 	public  void printLog(int id1) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -129,7 +128,7 @@ public class GameResultsInformation {
 					numPlayTody++;
 				}
 				theBest(ID,L,MOVE,SCORE);
-				if(id1==ID)MyBest(L,MOVE,SCORE);
+				if(id1==ID&&id1>99999999)MyBest(L,MOVE,SCORE);
 			}
 			resultSet.close();
 			statement.close();		
@@ -172,6 +171,9 @@ public class GameResultsInformation {
 		}
 		return ans;
 	}
+	/** simply prints all the games as played by the users (in the database).
+	 * 
+	 */
 	public  int allUsers(int id1) {
 		int ans = 0;
 		String allCustomersQuery = "SELECT * FROM Users;";
@@ -189,7 +191,7 @@ public class GameResultsInformation {
 				//System.out.println("Id: " + ID+","+L+","+MOVE+","+resultSet.getDate("time")+", "+SCORE);
 				if(id1==ID)numPlayTody++;
 				theBest(ID,L,MOVE,SCORE);
-				if(id1==ID)MyBest(L,MOVE,SCORE);
+				if(id1==ID&&id1>99999999)MyBest(L,MOVE,SCORE);
 				ans++;
 			}
 			resultSet.close();
@@ -206,31 +208,6 @@ public class GameResultsInformation {
 		}
 		return ans;
 	}
-	private void theBest(int iD, int l, int mOVE, int sCORE) {
-		if(l>=0&&l<=23&&iD>1000000) {
-			if(mOVE>arrMove.get(l) )return;
-			for (int i = 0; i < 10  ; i++) {
-				if(arrAllBest.get(l).size()<=i ||sCORE>arrAllBest.get(l).get(i)[1]) {
-					Integer b[]=new Integer[3];
-					b[0]=iD;
-					b[1]=sCORE;
-					b[2]=mOVE;
-					arrAllBest.get(l).add(i, b);
-					for(int j=i+1;j<10&&j<arrAllBest.get(l).size();j++)
-						if(arrAllBest.get(l).get(j)[0]==iD)arrAllBest.get(l).remove(j);
-					break;
-				}
-				else if(iD==arrAllBest.get(l).get(i)[0])break;;
-			
-			}
-		}
 
-	}
-
-	private void MyBest(int l, int mOVE, int sCORE) {
-		if(l<0&&l>23) return;
-		if(mOVE<=arrMove.get(l) && (arrMyBest.get(l)==null||arrMyBest.get(l)<sCORE))
-			arrMyBest.put(l, sCORE);
-	}
 }
 

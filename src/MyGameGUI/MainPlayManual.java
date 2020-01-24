@@ -6,6 +6,9 @@ import algorithms.Graph_Algo;
 import dataStructure.DGraph;
 import dataStructure.Nodedata;
 
+/**
+ *Playing the manual game
+ */
 public class MainPlayManual
 {
 

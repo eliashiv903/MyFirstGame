@@ -16,9 +16,11 @@ import dataStructure.graph;
 import dataStructure.node_data;
 
 /**
- * This empty class represents the set of graph-theory algorithms
- * which should be implemented as part of Ex2 - Do edit this class.
- * @author 
+ * In this class I do algorithms on graphs: 
+ * 1:The shortest way between two nodes 
+ * 2: Short distance between two nodes
+ *  3: Does the graph tie 
+ *  4: Find a relatively short way between some nodes that get
  *
  */
 public class Graph_Algo implements graph_algorithms  {
@@ -29,7 +31,7 @@ public class Graph_Algo implements graph_algorithms  {
 	public  Graph_Algo() {
 
 	}
-	
+
 	public void init(graph g) {
 		smart=(DGraph) g;
 	}
@@ -69,6 +71,16 @@ public class Graph_Algo implements graph_algorithms  {
 	} 
 
 
+	/**
+	 *Returns true if and only if there is a valid path from every node to each other node.
+	 *information about Connected graph: "https://en.wikipedia.org/wiki/Connectivity_(graph_theory)"
+	 *How the algorithm works:
+	 *Takes a node and marks it and begins to advance from it to any other node
+	 * it can reach and indicates it has reached it.
+	 *When he finishes, he checks to see if all the nodes are really marked.
+	 *And so it goes over every node.
+	 *
+	 */
 	@Override
 	public boolean isConnected() {
 		HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>(((DGraph) smart).getVHash());
@@ -104,6 +116,13 @@ public class Graph_Algo implements graph_algorithms  {
 	}
 
 
+	/**
+	 *returns the length of the shortest path between src to dest.
+	 *We use the Dijkstra's algorithm
+	 *explain how the algoritem work: "https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm".
+	 *If there is no path, the distance is 9.99999999E8 (infinity).
+	 *
+	 */
 	@Override
 	public double shortestPathDist(int src, int dest) {
 		HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>(((DGraph) smart).getVHash());
@@ -131,7 +150,12 @@ public class Graph_Algo implements graph_algorithms  {
 		return dataNode.get(dest).getWeight();
 	}
 
-
+	/**
+	 *returns the shortest path between src to dest - as an ordered List of nodes:
+	 *src--> n1-->n2-->...dest. see: "https://en.wikipedia.org/wiki/Shortest_path_problem"
+	 *We use the Dijkstra's algorithm
+	 *If no path returns an empty array.
+	 */
 	public List<node_data> shortestPath(int src, int dest) {
 		HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>(((DGraph) smart).getVHash());
 		HashMap<Integer, HashMap<Integer,edge_data>>  edgedataNode= new  HashMap<Integer, HashMap<Integer,edge_data>>(((DGraph) smart).getEHash());
@@ -168,6 +192,15 @@ public class Graph_Algo implements graph_algorithms  {
 		return go.get(dest);
 	}
 
+	/**
+	 *computes a relatively short path which visit each node in the targets List.
+	 *information about problem Similar to our : "https://en.wikipedia.org/wiki/Travelling_salesman_problem"
+	 *explain about the algoritem:Greedy algorithm- At each stage the road 
+	 *goes to the next intersection whose distance from the current intersection is the smallest,
+	 * until we reach the destination. more information:"https://en.wikipedia.org/wiki/Greedy_algorithm". 
+	 * In TSP if there is no way or the List targets is not strongly 
+	 * connected in graph the function will return an empty array.
+	 */
 	public List<node_data> TSP(List<Integer> targets) {
 		if(targets.size()==0)throw new RuntimeException("ERR list dont shold be empty");
 		HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>(((DGraph) smart).getVHash());
@@ -226,5 +259,5 @@ public class Graph_Algo implements graph_algorithms  {
 	public graph copy() {
 		return new DGraph(smart) ;
 	}
-	
+
 }

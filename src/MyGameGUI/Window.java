@@ -47,10 +47,13 @@ import dataStructure.Nodedata;
 import dataStructure.edge_data;
 import dataStructure.graph;
 import dataStructure.node_data;
+import gameClient.AlgoGameRooboteStart;
 import gameClient.Fruit;
 
 import oop_dataStructure.OOP_DGraph;
 import oop_dataStructure.oop_graph;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.*;
 import javax.swing.*;
@@ -792,6 +795,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 			public void run() {
 				while(game.isRunning()) {
 					results="TimeToEnd:"+game.timeToEnd();
+					setList(game);
 					repaint();
 					try {
 						Thread.sleep(2250);
@@ -806,7 +810,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 	}
 
 	public static void main(String[] args) {
-
+		
 		Window window = new Window();
 		window.setVisible(true);
 

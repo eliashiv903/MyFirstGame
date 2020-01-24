@@ -2,7 +2,11 @@ package dataStructure;
 import java.io.*;
 
 import MyGameGUI.Point3D;
-
+/**
+ * This interface represents the set of operations applicable on a 
+ * node (vertex) in a (directional) weighted graph.
+ 
+ */
 public class Nodedata implements node_data, Serializable  {
 private Point3D point;
 private Integer key;

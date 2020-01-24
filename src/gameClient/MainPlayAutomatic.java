@@ -1,5 +1,11 @@
 package gameClient;
 
+
+/**
+ *Launches the game and sends it to the
+ * appropriate class if it is a stage if 1 2 or 3 robots
+ */
+
 public class MainPlayAutomatic {
 	
 	public static void main(String[] args) {

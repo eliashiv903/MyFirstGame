@@ -14,9 +14,20 @@ import dataStructure.Nodedata;
 import dataStructure.node_data;
 
 
+/**
+ *Automatically runs the stage for 2 robots
+ * and sends a snapshot of the real-time traffic in the Ariel settlement saved in kml
+ * 
+ */
+
 public class AutomaticPlay2 {
 
 	private static KML_Logger kmlAriel;
+	
+	
+	
+	//Initializes the game and puts the bots according to the algorithm
+
 	public  void test2(WindowMange window) {
 		int scenario_num=window.getLevelPlay();
 		Game_Server.login(window.getId());
@@ -65,7 +76,7 @@ public class AutomaticPlay2 {
 		String results = game.toString();
 		System.out.println(results);
 	}
-
+	//Moves the bots according to what they received from the algorithm
 	private static void moveRobots(game_service game, DGraph gg, ArrayList<Nodedata> roobet, WindowMange window,int []dests, ArrayList<Integer> src, int scenario_num) {
 		ArrayList<List<node_data>> dest1 = new ArrayList<List<node_data>>();		
 		int dest;
@@ -90,6 +101,12 @@ public class AutomaticPlay2 {
 	}
 
 
+/**
+ * Thread:
+* While the game is taking steps for a certain amount of time throughout the game,
+*  an algorithm that changes the "pace of pace" is integrated here if the robot fails to eat the fruit.
+ * 
+ */
 	public  static void thread(game_service game) {
 		Thread a=new  Thread(new Runnable() {
 			@Override
@@ -152,7 +169,7 @@ public class AutomaticPlay2 {
 
 	public String goKML(String numLevel) {
 		String s = "";
-		
+
 		try {
 			File file = new File(numLevel);
 			BufferedReader reader = new BufferedReader( new FileReader(file));
@@ -166,5 +183,5 @@ public class AutomaticPlay2 {
 		}
 		return s;		
 	}
-	
+
 }

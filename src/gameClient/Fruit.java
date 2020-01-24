@@ -3,6 +3,12 @@ package gameClient;
 import MyGameGUI.Point3D;
 
 
+/**
+ *Saves the data on cows conveniently:
+ * the value of the fruit, the type, the location,
+ *  and on which edge it can be eaten
+ * 
+ */
 public class Fruit {
 	private double value=0;
 	private int type=0;

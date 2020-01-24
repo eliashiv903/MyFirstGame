@@ -10,7 +10,12 @@ import MyGameGUI.Point3D;
 
 import java.io.*;
 
-
+/**
+ * This interface represents a directional weighted graph.
+ * The interface has a road-system or communication network in mind - and should support a large number of nodes (over 100,000).
+ * The implementation should be based on an efficient compact representation (should NOT be based on a n*n matrix).
+ *
+ */
 public class DGraph implements graph, Serializable{
 	private HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>();//20
 	private HashMap<Integer, HashMap<Integer,edge_data>>  edgedataNode= new  HashMap<Integer, HashMap<Integer,edge_data>>();//20
@@ -19,10 +24,7 @@ public class DGraph implements graph, Serializable{
 
 
 	public  DGraph() {
-		 HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>();//20
-		 HashMap<Integer, HashMap<Integer,edge_data>>  edgedataNode= new  HashMap<Integer, HashMap<Integer,edge_data>>();//20
-		int sizeEdge=0;
-			  int MC=0;
+		
 	}
 	public  DGraph(DGraph p) {
 		this.dataNode= new HashMap<Integer, node_data>(p.getVHash());
