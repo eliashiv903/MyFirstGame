@@ -7,7 +7,8 @@ At each level there are nodes and ways between nodes. In addition, robots and fr
 **The game has two interfaces:**    
 Manual interface where every move the user has to choose where he wants to move the robot.  
 An automatic interface where the robots move in each move according to the algorithm in the game. The algorithm should be as efficient as possible.  
-video how to use the game: https://youtu.be/TgG4GSzojHw  
+video how to use the game manual: https://youtu.be/TgG4GSzojHw       
+video how to use the game automatic: https://youtu.be/0oa-3yu04Es   
 This work is based on another work, where we explain the folders of data structure and algorithms. link:     https://github.com/eliashiv903/Graph    
 example:    
 ![](https://user-images.githubusercontent.com/58138902/72988260-9804fe00-3df4-11ea-930a-ecf824fb17e2.png)  
